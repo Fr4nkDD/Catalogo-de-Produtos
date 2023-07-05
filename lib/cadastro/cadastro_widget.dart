@@ -8,19 +8,19 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'auth2_model.dart';
-export 'auth2_model.dart';
+import 'cadastro_model.dart';
+export 'cadastro_model.dart';
 
-class Auth2Widget extends StatefulWidget {
-  const Auth2Widget({Key? key}) : super(key: key);
+class CadastroWidget extends StatefulWidget {
+  const CadastroWidget({Key? key}) : super(key: key);
 
   @override
-  _Auth2WidgetState createState() => _Auth2WidgetState();
+  _CadastroWidgetState createState() => _CadastroWidgetState();
 }
 
-class _Auth2WidgetState extends State<Auth2Widget>
+class _CadastroWidgetState extends State<CadastroWidget>
     with TickerProviderStateMixin {
-  late Auth2Model _model;
+  late CadastroModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -52,27 +52,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
         ),
       ],
     ),
-    'columnOnPageLoadAnimation1': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        VisibilityEffect(duration: 300.ms),
-        FadeEffect(
-          curve: Curves.easeInOut,
-          delay: 300.ms,
-          duration: 400.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        MoveEffect(
-          curve: Curves.easeInOut,
-          delay: 300.ms,
-          duration: 400.ms,
-          begin: Offset(0.0, 20.0),
-          end: Offset(0.0, 0.0),
-        ),
-      ],
-    ),
-    'columnOnPageLoadAnimation2': AnimationInfo(
+    'columnOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       effects: [
         VisibilityEffect(duration: 300.ms),
@@ -97,13 +77,11 @@ class _Auth2WidgetState extends State<Auth2Widget>
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => Auth2Model());
+    _model = createModel(context, () => CadastroModel());
 
-    _model.emailAddressController1 ??= TextEditingController();
-    _model.passwordController1 ??= TextEditingController();
+    _model.emailAddressController ??= TextEditingController();
+    _model.passwordController ??= TextEditingController();
     _model.confirmpassController ??= TextEditingController();
-    _model.emailAddressController2 ??= TextEditingController();
-    _model.passwordController2 ??= TextEditingController();
   }
 
   @override
@@ -187,7 +165,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 24.0, 0.0, 0.0),
                               child: DefaultTabController(
-                                length: 2,
+                                length: 1,
                                 initialIndex: 0,
                                 child: Column(
                                   children: [
@@ -212,9 +190,6 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                         tabs: [
                                           Tab(
                                             text: 'Criar Conta',
-                                          ),
-                                          Tab(
-                                            text: 'Logar',
                                           ),
                                         ],
                                       ),
@@ -281,7 +256,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                         width: double.infinity,
                                                         child: TextFormField(
                                                           controller: _model
-                                                              .emailAddressController1,
+                                                              .emailAddressController,
                                                           autofocus: true,
                                                           autofillHints: [
                                                             AutofillHints.email
@@ -376,7 +351,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                               TextInputType
                                                                   .emailAddress,
                                                           validator: _model
-                                                              .emailAddressController1Validator
+                                                              .emailAddressControllerValidator
                                                               .asValidator(
                                                                   context),
                                                         ),
@@ -394,14 +369,14 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                         width: double.infinity,
                                                         child: TextFormField(
                                                           controller: _model
-                                                              .passwordController1,
+                                                              .passwordController,
                                                           autofocus: true,
                                                           autofillHints: [
                                                             AutofillHints
                                                                 .password
                                                           ],
                                                           obscureText: !_model
-                                                              .passwordVisibility1,
+                                                              .passwordVisibility,
                                                           decoration:
                                                               InputDecoration(
                                                             labelText:
@@ -488,15 +463,15 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                               onTap: () =>
                                                                   setState(
                                                                 () => _model
-                                                                        .passwordVisibility1 =
+                                                                        .passwordVisibility =
                                                                     !_model
-                                                                        .passwordVisibility1,
+                                                                        .passwordVisibility,
                                                               ),
                                                               focusNode: FocusNode(
                                                                   skipTraversal:
                                                                       true),
                                                               child: Icon(
-                                                                _model.passwordVisibility1
+                                                                _model.passwordVisibility
                                                                     ? Icons
                                                                         .visibility_outlined
                                                                     : Icons
@@ -512,7 +487,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .of(context)
                                                               .bodyLarge,
                                                           validator: _model
-                                                              .passwordController1Validator
+                                                              .passwordControllerValidator
                                                               .asValidator(
                                                                   context),
                                                         ),
@@ -671,7 +646,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                             GoRouter.of(context)
                                                                 .prepareAuthEvent();
                                                             if (_model
-                                                                    .passwordController1
+                                                                    .passwordController
                                                                     .text !=
                                                                 _model
                                                                     .confirmpassController
@@ -693,10 +668,10 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     .createAccountWithEmail(
                                                               context,
                                                               _model
-                                                                  .emailAddressController1
+                                                                  .emailAddressController
                                                                   .text,
                                                               _model
-                                                                  .passwordController1
+                                                                  .passwordController
                                                                   .text,
                                                             );
                                                             if (user == null) {
@@ -790,7 +765,31 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                       .down,
                                                               clipBehavior:
                                                                   Clip.none,
-                                                              children: [],
+                                                              children: [
+                                                                InkWell(
+                                                                  splashColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  focusColor: Colors
+                                                                      .transparent,
+                                                                  hoverColor: Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    context.pushNamed(
+                                                                        'login');
+                                                                  },
+                                                                  child: Text(
+                                                                    'Login?',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
                                                         ),
@@ -799,403 +798,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                   ],
                                                 ),
                                               ).animateOnPageLoad(animationsMap[
-                                                  'columnOnPageLoadAnimation1']!),
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment:
-                                                AlignmentDirectional(0.0, -1.0),
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      24.0, 16.0, 24.0, 0.0),
-                                              child: SingleChildScrollView(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    if (responsiveVisibility(
-                                                      context: context,
-                                                      phone: false,
-                                                      tablet: false,
-                                                    ))
-                                                      Container(
-                                                        width: 230.0,
-                                                        height: 40.0,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                        ),
-                                                      ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  15.0),
-                                                      child: Text(
-                                                        'Bem Vindo!',
-                                                        textAlign:
-                                                            TextAlign.start,
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .headlineMedium,
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  16.0),
-                                                      child: Container(
-                                                        width: double.infinity,
-                                                        child: TextFormField(
-                                                          controller: _model
-                                                              .emailAddressController2,
-                                                          autofocus: true,
-                                                          autofillHints: [
-                                                            AutofillHints.email
-                                                          ],
-                                                          obscureText: false,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            labelText: 'Email',
-                                                            labelStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelLarge,
-                                                            enabledBorder:
-                                                                OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryBackground,
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                            ),
-                                                            focusedBorder:
-                                                                OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                            ),
-                                                            errorBorder:
-                                                                OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .alternate,
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                            ),
-                                                            focusedErrorBorder:
-                                                                OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .alternate,
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                            ),
-                                                            filled: true,
-                                                            fillColor: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            contentPadding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        24.0,
-                                                                        24.0,
-                                                                        0.0,
-                                                                        24.0),
-                                                          ),
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyLarge,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .emailAddress,
-                                                          validator: _model
-                                                              .emailAddressController2Validator
-                                                              .asValidator(
-                                                                  context),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  16.0),
-                                                      child: Container(
-                                                        width: double.infinity,
-                                                        child: TextFormField(
-                                                          controller: _model
-                                                              .passwordController2,
-                                                          autofocus: true,
-                                                          autofillHints: [
-                                                            AutofillHints
-                                                                .password
-                                                          ],
-                                                          obscureText: !_model
-                                                              .passwordVisibility2,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            labelText:
-                                                                'Password',
-                                                            labelStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelLarge,
-                                                            enabledBorder:
-                                                                OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .alternate,
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                            ),
-                                                            focusedBorder:
-                                                                OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                            ),
-                                                            errorBorder:
-                                                                OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .error,
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                            ),
-                                                            focusedErrorBorder:
-                                                                OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .error,
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                            ),
-                                                            filled: true,
-                                                            fillColor: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            contentPadding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        24.0,
-                                                                        24.0,
-                                                                        0.0,
-                                                                        24.0),
-                                                            suffixIcon: InkWell(
-                                                              onTap: () =>
-                                                                  setState(
-                                                                () => _model
-                                                                        .passwordVisibility2 =
-                                                                    !_model
-                                                                        .passwordVisibility2,
-                                                              ),
-                                                              focusNode: FocusNode(
-                                                                  skipTraversal:
-                                                                      true),
-                                                              child: Icon(
-                                                                _model.passwordVisibility2
-                                                                    ? Icons
-                                                                        .visibility_outlined
-                                                                    : Icons
-                                                                        .visibility_off_outlined,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryText,
-                                                                size: 24.0,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyLarge,
-                                                          validator: _model
-                                                              .passwordController2Validator
-                                                              .asValidator(
-                                                                  context),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              0.0, 0.0),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    16.0),
-                                                        child: FFButtonWidget(
-                                                          onPressed: () async {
-                                                            GoRouter.of(context)
-                                                                .prepareAuthEvent();
-
-                                                            final user =
-                                                                await authManager
-                                                                    .signInWithEmail(
-                                                              context,
-                                                              _model
-                                                                  .emailAddressController1
-                                                                  .text,
-                                                              _model
-                                                                  .passwordController1
-                                                                  .text,
-                                                            );
-                                                            if (user == null) {
-                                                              return;
-                                                            }
-
-                                                            context.goNamedAuth(
-                                                                'HomePage',
-                                                                context
-                                                                    .mounted);
-                                                          },
-                                                          text: 'Loguin',
-                                                          options:
-                                                              FFButtonOptions(
-                                                            width: 230.0,
-                                                            height: 52.0,
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            iconPadding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            textStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
-                                                            elevation: 3.0,
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Colors
-                                                                  .transparent,
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              0.0, 0.0),
-                                                      child: Wrap(
-                                                        spacing: 16.0,
-                                                        runSpacing: 0.0,
-                                                        alignment: WrapAlignment
-                                                            .center,
-                                                        crossAxisAlignment:
-                                                            WrapCrossAlignment
-                                                                .center,
-                                                        direction:
-                                                            Axis.horizontal,
-                                                        runAlignment:
-                                                            WrapAlignment
-                                                                .center,
-                                                        verticalDirection:
-                                                            VerticalDirection
-                                                                .down,
-                                                        clipBehavior: Clip.none,
-                                                        children: [],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ).animateOnPageLoad(animationsMap[
-                                                  'columnOnPageLoadAnimation2']!),
+                                                  'columnOnPageLoadAnimation']!),
                                             ),
                                           ),
                                         ],

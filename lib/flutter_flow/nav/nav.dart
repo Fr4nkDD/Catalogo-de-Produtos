@@ -77,13 +77,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomePageWidget() : Auth2Widget(),
+          appStateNotifier.loggedIn ? HomePageWidget() : LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? HomePageWidget() : Auth2Widget(),
+              appStateNotifier.loggedIn ? HomePageWidget() : LoginWidget(),
         ),
         FFRoute(
           name: 'HomePage',
@@ -91,9 +91,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => HomePageWidget(),
         ),
         FFRoute(
-          name: 'Auth2',
-          path: '/auth2',
-          builder: (context, params) => Auth2Widget(),
+          name: 'cadastro',
+          path: '/cadastro',
+          builder: (context, params) => CadastroWidget(),
         ),
         FFRoute(
           name: 'produto',
@@ -107,6 +107,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'carrinho',
           path: '/carrinho',
           builder: (context, params) => CarrinhoWidget(),
+        ),
+        FFRoute(
+          name: 'login',
+          path: '/login',
+          builder: (context, params) => LoginWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -273,7 +278,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/auth2';
+            return '/login';
           }
           return null;
         },

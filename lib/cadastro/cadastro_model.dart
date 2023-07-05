@@ -9,44 +9,34 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class Auth2Model extends FlutterFlowModel {
+class CadastroModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
   // State field(s) for emailAddress widget.
-  TextEditingController? emailAddressController1;
-  String? Function(BuildContext, String?)? emailAddressController1Validator;
+  TextEditingController? emailAddressController;
+  String? Function(BuildContext, String?)? emailAddressControllerValidator;
   // State field(s) for password widget.
-  TextEditingController? passwordController1;
-  late bool passwordVisibility1;
-  String? Function(BuildContext, String?)? passwordController1Validator;
+  TextEditingController? passwordController;
+  late bool passwordVisibility;
+  String? Function(BuildContext, String?)? passwordControllerValidator;
   // State field(s) for confirmpass widget.
   TextEditingController? confirmpassController;
   late bool confirmpassVisibility;
   String? Function(BuildContext, String?)? confirmpassControllerValidator;
-  // State field(s) for emailAddress widget.
-  TextEditingController? emailAddressController2;
-  String? Function(BuildContext, String?)? emailAddressController2Validator;
-  // State field(s) for password widget.
-  TextEditingController? passwordController2;
-  late bool passwordVisibility2;
-  String? Function(BuildContext, String?)? passwordController2Validator;
 
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {
-    passwordVisibility1 = false;
+    passwordVisibility = false;
     confirmpassVisibility = false;
-    passwordVisibility2 = false;
   }
 
   void dispose() {
     unfocusNode.dispose();
-    emailAddressController1?.dispose();
-    passwordController1?.dispose();
+    emailAddressController?.dispose();
+    passwordController?.dispose();
     confirmpassController?.dispose();
-    emailAddressController2?.dispose();
-    passwordController2?.dispose();
   }
 
   /// Action blocks are added here.

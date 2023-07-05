@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1030717843057:android:c92638e18d96611a3d1dd0",
+        "android_client_info": {
+          "package_name": "com.mycompany.catalogodeprodutos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030717843057-pr6t0nmiue4ttf161a7fjmorr8c14tsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM9NW2gzVpOL4B2xfKbeyCjJ16WpWW-CU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030717843057-pr6t0nmiue4ttf161a7fjmorr8c14tsn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1030717843057-1jokcsctqgj8du4tfjujp5mrls87m96u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.catalogonovo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1030717843057:android:90e6558dec66f3ff3d1dd0",
         "android_client_info": {
           "package_name": "com.mycompany.catalogonovo"

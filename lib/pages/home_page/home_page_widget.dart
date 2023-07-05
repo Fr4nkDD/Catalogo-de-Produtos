@@ -1,8 +1,11 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -65,10 +68,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 0.0),
                         child: FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
+                          onPressed: () async {
+                            GoRouter.of(context).prepareAuthEvent();
+                            await authManager.signOut();
+                            GoRouter.of(context).clearRedirectLocation();
+
+                            context.pushNamedAuth('login', context.mounted);
                           },
-                          text: '',
+                          text: 'Sair',
                           icon: Icon(
                             Icons.location_history,
                             size: 15.0,
@@ -301,178 +308,190 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             List<CatalogoRecord>
                                                 gridViewCatalogoRecordList =
                                                 snapshot.data!;
-                                            return GridView.builder(
-                                              padding: EdgeInsets.zero,
-                                              gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                crossAxisSpacing: 10.0,
-                                                mainAxisSpacing: 10.0,
-                                                childAspectRatio: 0.6,
-                                              ),
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.vertical,
-                                              itemCount:
-                                                  gridViewCatalogoRecordList
-                                                      .length,
-                                              itemBuilder:
-                                                  (context, gridViewIndex) {
-                                                final gridViewCatalogoRecord =
-                                                    gridViewCatalogoRecordList[
-                                                        gridViewIndex];
-                                                return Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          15.0, 10.0, 0.0, 0.0),
-                                                  child: InkWell(
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    focusColor:
-                                                        Colors.transparent,
-                                                    hoverColor:
-                                                        Colors.transparent,
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    onTap: () async {
-                                                      context.pushNamed(
-                                                        'produto',
-                                                        queryParameters: {
-                                                          'refproduto':
-                                                              serializeParam(
-                                                            gridViewCatalogoRecord
-                                                                .reference,
-                                                            ParamType
-                                                                .DocumentReference,
-                                                          ),
-                                                        }.withoutNulls,
-                                                      );
-                                                    },
-                                                    child: Material(
-                                                      color: Colors.transparent,
-                                                      elevation: 3.0,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
-                                                      ),
-                                                      child: Container(
-                                                        width: 100.0,
-                                                        height: 100.0,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondary,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              blurRadius: 4.0,
-                                                              color: Color(
-                                                                  0x33000000),
-                                                              offset: Offset(
-                                                                  0.0, 2.0),
-                                                            )
-                                                          ],
+                                            return InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                await queryCatalogoRecordOnce();
+                                              },
+                                              child: GridView.builder(
+                                                padding: EdgeInsets.zero,
+                                                gridDelegate:
+                                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 2,
+                                                  crossAxisSpacing: 10.0,
+                                                  mainAxisSpacing: 10.0,
+                                                  childAspectRatio: 0.6,
+                                                ),
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.vertical,
+                                                itemCount:
+                                                    gridViewCatalogoRecordList
+                                                        .length,
+                                                itemBuilder:
+                                                    (context, gridViewIndex) {
+                                                  final gridViewCatalogoRecord =
+                                                      gridViewCatalogoRecordList[
+                                                          gridViewIndex];
+                                                  return Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(15.0,
+                                                                10.0, 0.0, 0.0),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        context.pushNamed(
+                                                          'produto',
+                                                          queryParameters: {
+                                                            'refproduto':
+                                                                serializeParam(
+                                                              gridViewCatalogoRecord
+                                                                  .reference,
+                                                              ParamType
+                                                                  .DocumentReference,
+                                                            ),
+                                                          }.withoutNulls,
+                                                        );
+                                                      },
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        elevation: 3.0,
+                                                        shape:
+                                                            RoundedRectangleBorder(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
                                                                       30.0),
-                                                          shape: BoxShape
-                                                              .rectangle,
                                                         ),
                                                         child: Container(
-                                                          width:
-                                                              double.infinity,
-                                                          height: 600.0,
-                                                          child: Stack(
-                                                            children: [
-                                                              ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          15.0),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          15.0),
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          30.0),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          30.0),
-                                                                ),
-                                                                child: Image
-                                                                    .network(
-                                                                  valueOrDefault<
-                                                                      String>(
+                                                          width: 100.0,
+                                                          height: 100.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondary,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius: 4.0,
+                                                                color: Color(
+                                                                    0x33000000),
+                                                                offset: Offset(
+                                                                    0.0, 2.0),
+                                                              )
+                                                            ],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30.0),
+                                                            shape: BoxShape
+                                                                .rectangle,
+                                                          ),
+                                                          child: Container(
+                                                            width:
+                                                                double.infinity,
+                                                            height: 600.0,
+                                                            child: Stack(
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .only(
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                            15.0),
+                                                                    bottomRight:
+                                                                        Radius.circular(
+                                                                            15.0),
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                            30.0),
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            30.0),
+                                                                  ),
+                                                                  child: Image
+                                                                      .network(
                                                                     gridViewCatalogoRecord
                                                                         .img,
-                                                                    'https://th.bing.com/th/id/OIP.rm4o2LZV2iOu83ECOsG-pwHaEm?pid=ImgDet&rs=1',
+                                                                    width: double
+                                                                        .infinity,
+                                                                    height:
+                                                                        200.0,
+                                                                    fit: BoxFit
+                                                                        .cover,
                                                                   ),
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: 200.0,
-                                                                  fit: BoxFit
-                                                                      .cover,
                                                                 ),
-                                                              ),
-                                                              Align(
-                                                                alignment:
-                                                                    AlignmentDirectional(
-                                                                        0.99,
-                                                                        0.45),
-                                                                child: Text(
-                                                                  formatNumber(
+                                                                Align(
+                                                                  alignment:
+                                                                      AlignmentDirectional(
+                                                                          0.99,
+                                                                          0.45),
+                                                                  child: Text(
+                                                                    formatNumber(
+                                                                      gridViewCatalogoRecord
+                                                                          .preco,
+                                                                      formatType:
+                                                                          FormatType
+                                                                              .custom,
+                                                                      format:
+                                                                          'R\$ ',
+                                                                      locale:
+                                                                          '',
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                ),
+                                                                Align(
+                                                                  alignment:
+                                                                      AlignmentDirectional(
+                                                                          -0.65,
+                                                                          0.73),
+                                                                  child: Text(
                                                                     gridViewCatalogoRecord
-                                                                        .preco,
-                                                                    formatType:
-                                                                        FormatType
-                                                                            .custom,
-                                                                    format:
-                                                                        'R\$ ',
-                                                                    locale: '',
+                                                                        .desc,
+                                                                    maxLines: 2,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodySmall,
                                                                   ),
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium,
                                                                 ),
-                                                              ),
-                                                              Align(
-                                                                alignment:
-                                                                    AlignmentDirectional(
-                                                                        -0.62,
-                                                                        0.6),
-                                                                child: Text(
-                                                                  gridViewCatalogoRecord
-                                                                      .desc,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium,
+                                                                Align(
+                                                                  alignment:
+                                                                      AlignmentDirectional(
+                                                                          -0.62,
+                                                                          0.45),
+                                                                  child: Text(
+                                                                    gridViewCatalogoRecord
+                                                                        .name,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyLarge,
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                              Align(
-                                                                alignment:
-                                                                    AlignmentDirectional(
-                                                                        -0.62,
-                                                                        0.45),
-                                                                child: Text(
-                                                                  gridViewCatalogoRecord
-                                                                      .name,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyLarge,
-                                                                ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                );
-                                              },
+                                                  );
+                                                },
+                                              ),
                                             );
                                           },
                                         ),

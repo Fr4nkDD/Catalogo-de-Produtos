@@ -47,9 +47,23 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
           automaticallyImplyLeading: false,
-          title: Text(
-            'My Cart',
-            style: FlutterFlowTheme.of(context).displaySmall,
+          leading: Align(
+            alignment: AlignmentDirectional(0.0, 0.0),
+            child: FlutterFlowIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 30.0,
+              borderWidth: 1.0,
+              buttonSize: 40.0,
+              fillColor: Color(0x7F0F1113),
+              icon: Icon(
+                Icons.chevron_left_rounded,
+                color: Colors.white,
+                size: 20.0,
+              ),
+              onPressed: () async {
+                context.safePop();
+              },
+            ),
           ),
           actions: [],
           centerTitle: false,
@@ -65,6 +79,10 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      'Meu Carrinho',
+                      style: FlutterFlowTheme.of(context).displaySmall,
+                    ),
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
@@ -291,45 +309,6 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                24.0, 4.0, 24.0, 12.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      'Total',
-                                      style: FlutterFlowTheme.of(context)
-                                          .labelMedium,
-                                    ),
-                                    FlutterFlowIconButton(
-                                      borderColor: Colors.transparent,
-                                      borderRadius: 30.0,
-                                      borderWidth: 1.0,
-                                      buttonSize: 36.0,
-                                      icon: Icon(
-                                        Icons.info_outlined,
-                                        color: Color(0xFF57636C),
-                                        size: 18.0,
-                                      ),
-                                      onPressed: () {
-                                        print('IconButton pressed ...');
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  '\$137.75',
-                                  style:
-                                      FlutterFlowTheme.of(context).displaySmall,
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -337,31 +316,40 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                 ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 100.0,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primary,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 4.0,
-                    color: Color(0x320E151B),
-                    offset: Offset(0.0, -2.0),
-                  )
-                ],
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(0.0),
-                  bottomRight: Radius.circular(0.0),
-                  topLeft: Radius.circular(12.0),
-                  topRight: Radius.circular(12.0),
+            InkWell(
+              splashColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () async {
+                context.pushNamed('carrinho');
+              },
+              child: Container(
+                width: double.infinity,
+                height: 100.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primary,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 4.0,
+                      color: Color(0x320E151B),
+                      offset: Offset(0.0, -2.0),
+                    )
+                  ],
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(0.0),
+                    bottomRight: Radius.circular(0.0),
+                    topLeft: Radius.circular(12.0),
+                    topRight: Radius.circular(12.0),
+                  ),
                 ),
-              ),
-              alignment: AlignmentDirectional(0.0, 0.0),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
-                child: Text(
-                  'Finalizar Compra',
-                  style: FlutterFlowTheme.of(context).titleMedium,
+                alignment: AlignmentDirectional(0.0, 0.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
+                  child: Text(
+                    'Finalizar Compra',
+                    style: FlutterFlowTheme.of(context).titleMedium,
+                  ),
                 ),
               ),
             ),

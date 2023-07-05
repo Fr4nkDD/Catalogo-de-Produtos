@@ -90,7 +90,7 @@ class _ProdutoWidgetState extends State<ProdutoWidget> {
                             alignment: AlignmentDirectional(0.0, 0.0),
                             children: [
                               Image.network(
-                                'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/22286819-5e0e-436d-af37-47043dd99fe0/esc-womens-sleeveless-jacket-0DDzLT.png',
+                                produtoCatalogoRecord.img,
                                 width: double.infinity,
                                 height: double.infinity,
                                 fit: BoxFit.cover,
